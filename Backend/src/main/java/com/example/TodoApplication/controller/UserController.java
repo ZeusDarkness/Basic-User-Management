@@ -17,11 +17,9 @@ import java.util.NoSuchElementException;
 import com.example.TodoApplication.entity.ApiResponse;
 import com.example.TodoApplication.entity.User;
 import com.example.TodoApplication.service.UserService;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 
