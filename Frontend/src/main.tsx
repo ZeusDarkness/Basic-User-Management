@@ -3,15 +3,15 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 
 import { createBrowserRouter, RouterProvider } from "react-router";
-import App from "./App";
 import Homepage from "./pages/HomePage";
 import UserPage from "./pages/UserPage";
 import BlogPage from "./pages/BlogPage";
+import AppLayout from "./App";
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <App />,
+        element: <AppLayout />,
         children: [
             { index: true, element: <Homepage /> },
             {
