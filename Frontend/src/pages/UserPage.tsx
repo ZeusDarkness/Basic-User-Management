@@ -1,8 +1,13 @@
-import { PlusCircleOutlined } from "@ant-design/icons";
+import {
+    DeleteOutlined,
+    EditOutlined,
+    PlusCircleOutlined,
+} from "@ant-design/icons";
 import { Button, Table } from "antd";
 import { useEffect, useState } from "react";
 import CreateUserModal from "../components/modal/CreateUserModal";
 import { getUsersApi } from "../services/api";
+import UpdateUserModal from "../components/modal/UpdateUserModal";
 interface IUser {
     id: number;
     name: string;
@@ -10,7 +15,9 @@ interface IUser {
 }
 const UserPage = () => {
     const [users, setUsers] = useState<IUser[]>([]);
+    const [dataUpdate, setDataUpdate] = useState<IUser | null>(null);
     const [openCreateModal, setOpenCreateModal] = useState<boolean>(false);
+    const [openUpdateModal, setOpenUpdateModal] = useState<boolean>(false);
     const fetchUsers = async () => {
         const res = await getUsersApi();
         if (res?.data?.status === "success") {
@@ -20,6 +27,11 @@ const UserPage = () => {
     useEffect(() => {
         fetchUsers();
     }, []);
+    const handleEditUser = (data: IUser) => {
+        setDataUpdate(data);
+        setOpenUpdateModal(true);
+    };
+    const handleDeleteUser = () => {};
 
     const columns = [
         {
@@ -33,6 +45,27 @@ const UserPage = () => {
         {
             title: "Email",
             dataIndex: "email",
+        },
+        {
+            title: "Action",
+            render: (_: string, record: IUser) => {
+                return (
+                    <div
+                        style={{
+                            display: "flex",
+                            gap: 20,
+                        }}
+                    >
+                        <EditOutlined
+                            onClick={() => handleEditUser(record)}
+                            style={{ color: "orange", cursor: "pointer" }}
+                        />
+                        <DeleteOutlined
+                            style={{ color: "red", cursor: "pointer" }}
+                        />
+                    </div>
+                );
+            },
         },
     ];
     return (
@@ -62,7 +95,14 @@ const UserPage = () => {
             <CreateUserModal
                 openCreateModal={openCreateModal}
                 setOpenCreateModal={setOpenCreateModal}
-                fetchUsers ={fetchUsers}
+                fetchUsers={fetchUsers}
+            />
+            <UpdateUserModal
+                openUpdateModal={openUpdateModal}
+                setOpenUpdateModal={setOpenUpdateModal}
+                fetchUsers={fetchUsers}
+                dataUpdate={dataUpdate}
+                setDataUpdate={setDataUpdate}
             />
         </div>
     );
